@@ -32,7 +32,6 @@ def run(data, sample_rate=10000):
 
     string_data = True
     
-    
     # Convert string to bit sequence or string bit sequence to numeric bit
     # sequence
     if string_data:
@@ -132,21 +131,21 @@ def test_suite():
     xl_string = l_string * 5
 
     no_tests = 500
-    sample_rates = [16000]
+    sample_rates = [10000,20000]
 
-    #s_amount_right, s_bit_error_rate = test_string(s_string, no_tests, sample_rates)
+    s_amount_right, s_bit_error_rate = test_string(s_string, no_tests, sample_rates)
     m_amount_right, m_bit_error_rate = test_string(m_string, no_tests, sample_rates)
-    #l_amount_right, l_bit_error_rate = test_string(l_string, no_tests, sample_rates)
-    #xl_amount_right, xl_bit_error_rate = test_string(xl_string, no_tests, sample_rates)
+    l_amount_right, l_bit_error_rate = test_string(l_string, no_tests, sample_rates)
+    xl_amount_right, xl_bit_error_rate = test_string(xl_string, no_tests, sample_rates)
 
-    #print(f"Short string: {s_string}")
-    #print_results(no_tests, s_amount_right, s_bit_error_rate, sample_rates)
+    print(f"Short string: {s_string}")
+    print_results(no_tests, s_amount_right, s_bit_error_rate, sample_rates)
     print(f"Medium string: {m_string}")
     print_results(no_tests, m_amount_right, m_bit_error_rate, sample_rates)
-    #print(f"Long string: {l_string}")
-    #print_results(no_tests, l_amount_right, l_bit_error_rate, sample_rates)
-    #print(f"Extra long string: {xl_string}")
-    #print_results(no_tests, xl_amount_right, xl_bit_error_rate, sample_rates)
+    print(f"Long string: {l_string}")
+    print_results(no_tests, l_amount_right, l_bit_error_rate, sample_rates)
+    print(f"Extra long string: {xl_string}")
+    print_results(no_tests, xl_amount_right, xl_bit_error_rate, sample_rates)
 
 def main():
     test_suite() # Run tests
