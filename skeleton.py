@@ -17,7 +17,7 @@ from scipy import signal
 import matplotlib.pyplot as plt
 import wcslib as wcs
 
-CORRECT_LIMIT = 0.6
+CORRECT_LIMIT = 0.8
 
 def run(data, sample_rate=10000):
     # Parameters
@@ -73,7 +73,7 @@ def run(data, sample_rate=10000):
     yI, yQ = wcs.demodulate_signal(yf, wc, t)
     yb = signal.lfilter(numerator, denominator, yI) + 1j * signal.lfilter(numerator, denominator, yQ)
 
-    ybm = abs(yb)
+    ybm = np.abs(yb)
     ybp = np.angle(yb)
 
     # Baseband and string decoding
@@ -94,7 +94,7 @@ def test_string(s, no_tests, sample_rates):
         bit_error_rate.append(0)
         for _ in range(no_tests):
             sent_str, recv_str, sent_bits, recv_bits = run(s, sample_rate)
-            while len(recv_bits) == 0: sent_str, recv_str, sent_bits, recv_bits = run(s, sample_rate)
+            while len(recv_bits) != len(sent_bits): sent_str, recv_str, sent_bits, recv_bits = run(s, sample_rate)
             bit_transmitted[i] += len(sent_bits)
             correct_chars = 0
             for j in range(min(len(recv_str), len(sent_str))):
@@ -130,8 +130,8 @@ def test_suite():
     l_string = m_string * 5
     xl_string = l_string * 5
 
-    no_tests = 500
-    sample_rates = [10000,20000]
+    no_tests = 1000
+    sample_rates = [10000, 20000]
 
     s_amount_right, s_bit_error_rate = test_string(s_string, no_tests, sample_rates)
     m_amount_right, m_bit_error_rate = test_string(m_string, no_tests, sample_rates)

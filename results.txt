@@ -1,0 +1,52 @@
+Short string: a
+Sample rate = 10000 Hz
+Number of tests:  1000
+Amount right:  906
+Amount right in %:  90.60000000000001 %
+Bit error rate:  2.4625 %
+
+Sample rate = 20000 Hz
+Number of tests:  1000
+Amount right:  922
+Amount right in %:  92.2 %
+Bit error rate:  2.075 %
+
+Medium string: abcde
+Sample rate = 10000 Hz
+Number of tests:  1000
+Amount right:  862
+Amount right in %:  86.2 %
+Bit error rate:  3.005 %
+
+Sample rate = 20000 Hz
+Number of tests:  1000
+Amount right:  900
+Amount right in %:  90.0 %
+Bit error rate:  2.2325 %
+
+Long string: abcdeabcdeabcdeabcdeabcde
+Sample rate = 10000 Hz
+Number of tests:  1000
+Amount right:  848
+Amount right in %:  84.8 %
+Bit error rate:  2.7625 %
+
+Sample rate = 20000 Hz
+Number of tests:  1000
+Amount right:  872
+Amount right in %:  87.2 %
+Bit error rate:  2.5925 %
+
+Extra long string: abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
+Sample rate = 10000 Hz
+Number of tests:  1000
+Amount right:  864
+Amount right in %:  86.4 %
+Bit error rate:  2.405 %
+
+Sample rate = 20000 Hz
+Number of tests:  1000
+Amount right:  886
+Amount right in %:  88.6 %
+Bit error rate:  1.8900000000000001 %
+
