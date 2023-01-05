@@ -7,11 +7,15 @@ $ python3 skeleton.py "Hello World!"
 
 For binary inputs, run:
 $ python3 skeleton.py -b 010010000110100100100001
+flags: 
+    -rate sample frequency of tests
+    -t number of tests
 
 2020-present -- Roland Hostettler <roland.hostettler@angstrom.uu.se>
 """
 
 import sys
+import re
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
@@ -19,7 +23,7 @@ import wcslib as wcs
 
 CORRECT_LIMIT = 0.8
 
-def run(data, sample_rate=10000):
+def run(data, sample_rate=10000, string_data=True):
     # Parameters
     channel_id = 1      # Channel id
     Tb = 0.03           # Symbol width in seconds
@@ -29,8 +33,6 @@ def run(data, sample_rate=10000):
     wc = 2*np.pi*fc     # Carrier frequency in rad/s
     Ac = np.sqrt(2)     # Carrier amplitude
     Ts = 1/fs           # Sampling period in seconds
-
-    string_data = True
     
     # Convert string to bit sequence or string bit sequence to numeric bit
     # sequence
@@ -146,9 +148,43 @@ def test_suite():
     print_results(no_tests, l_amount_right, l_bit_error_rate, sample_rates)
     print(f"Extra long string: {xl_string}")
     print_results(no_tests, xl_amount_right, xl_bit_error_rate, sample_rates)
+    
+def check_args(args):
+    bs, sample_rate, tests = "", 10000, 1
+    for i, arg in enumerate(args):
+        if arg == "-b":
+            bs = args[i+1]
+            # Check if string only contains 0s and 1s
+            regex = re.compile('^[01]+$')
+            assert regex.match(bs) is not None, "Invalid string"
+        if arg == "-rate":
+            sample_rate = args[i+1]
+            assert sample_rate.isdigit() is True, "Invalid sample rate"
+            sample_rate = int(sample_rate)
+        if arg == "-t":
+            tests = args[i+1]
+            assert tests.isdigit() is True, "Invalid test amount"
+            tests = int(tests)
+    return bs, sample_rate, tests
 
 def main():
-    test_suite() # Run tests
+    _, *args = sys.argv
+    if len(args) == 0:
+        test_suite()
+        return
+    elif len(args) >= 2 and "-b" in args:
+        bs, sample_rate, tests = check_args(args)
+        print("Transmitted string: ", wcs.decode_string([int(bit) for bit in bs]))
+        print("Sample rate: ", sample_rate)
+        for _ in range(tests):
+            sbits, rbits = [False], []
+            while len(sbits) != len(rbits): _, recv, sbits, rbits = run(bs, sample_rate, False)
+            print(f"Received string: {recv}")
+        return
+    else:
+        print("Invalid arguments, \nusage: python3 skeleton.py -b <bits> -rate (optional) <sample rate> -t (optional) <tests>")
+        return
+    #test_suite() # Run tests
 
 if __name__ == "__main__":
     main()
